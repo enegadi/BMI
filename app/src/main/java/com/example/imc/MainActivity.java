@@ -1,5 +1,6 @@
 package com.example.imc;
 
+import android.graphics.drawable.Drawable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -7,6 +8,8 @@ import android.view.View;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -34,9 +37,12 @@ public class MainActivity extends AppCompatActivity {
 
 
                     Log.d("MainActivity", "result: " + calculateBMI(weight, height/100));
+                    changePic(weight, height/100);
+                    Toast.makeText(getApplicationContext(), "your BMI is " + calculateBMI(weight, height/100), Toast.LENGTH_LONG).show();
+
 
                 } catch (NumberFormatException e) {
-                    e.printStackTrace(); 
+                    e.printStackTrace();
                 }
             }
         });
@@ -52,4 +58,26 @@ public class MainActivity extends AppCompatActivity {
         }
         return 0;
     }
+
+    private void changePic(float weight, float height){
+        ImageView resultImage = findViewById(R.id.resultImage);
+        float result = calculateBMI(weight, height);
+        if(result != 0){
+            resultImage.setVisibility(View.VISIBLE);
+            if (result < 18.5) {
+                resultImage.setImageDrawable(getResources().getDrawable(R.drawable.image1));
+            } else if (result >= 18.5 & result < 22.9 ) {
+                resultImage.setImageDrawable(getResources().getDrawable(R.drawable.image2));
+            }
+            else if (result >= 23 & result < 24.9 ) {
+                resultImage.setImageDrawable(getResources().getDrawable(R.drawable.image3));
+            }
+            else if (result >= 25 & result < 29.9 ) {
+                resultImage.setImageDrawable(getResources().getDrawable(R.drawable.image4));
+            }
+        }
+
+    }
+
+
 }
